@@ -1,0 +1,7 @@
+# Fichiers à ignorer
+*.zip
+*.rar
+*.7z
+*.exe
+*.o
+*.layout
