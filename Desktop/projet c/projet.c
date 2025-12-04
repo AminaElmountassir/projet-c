@@ -9,7 +9,7 @@ typedef struct Noeud {
 Noeud* creerNoeud(int valeur) {
     Noeud* nouveau = (Noeud*)malloc(sizeof(Noeud));
     if (nouveau == NULL) {
-        printf("Erreur d'allocation mémoire.\n");
+        printf("Erreur d'allocation mÃ©moire.\n");
         exit(1);
     }
     nouveau->donnee = valeur;
@@ -163,15 +163,15 @@ int main() {
     printf("Liste originale :\n");
     afficherListe(liste);
     Noeud* triee = Trier(liste);
-    printf("Liste triée :\n");
+    printf("Liste triÃ©e :\n");
     afficherListe(triee);
 
     Noeud* positifs = NULL;
     Noeud* negatifs = NULL;
     Separer(liste, &positifs, &negatifs);
-    printf("Éléments positifs :\n");
+    printf("Ã‰lÃ©ments positifs :\n");
     afficherListe(positifs);
-    printf("Éléments négatifs :\n");
+    printf("Ã‰lÃ©ments nÃ©gatifs :\n");
     afficherListe(negatifs);
 
     Noeud* sansDoublons = Doublons(liste);
@@ -179,7 +179,7 @@ int main() {
     afficherListe(sansDoublons);
 
     Noeud* inversee = Inverser(liste);
-    printf("Liste inversée :\n");
+    printf("Liste inversÃ©e :\n");
     afficherListe(inversee);
 
     return 0;
