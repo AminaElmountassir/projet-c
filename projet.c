@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 typedef struct Noeud {
     int donnee;
     struct Noeud* suivant;
@@ -42,7 +43,18 @@ void afficherListe(Noeud* tete) {
         courant = courant->suivant;
     } while (courant != tete);
     printf("\n");
+}
 
+void libererListe(Noeud** tete) {
+    if (*tete == NULL) return;
+    Noeud* courant = *tete;
+    Noeud* suivant;
+    do {
+        suivant = courant->suivant;
+        free(courant);
+        courant = suivant;
+    } while (courant != *tete);
+    *tete = NULL;
 }
 
 Noeud* Trier(Noeud* tete) {
@@ -53,7 +65,6 @@ Noeud* Trier(Noeud* tete) {
 
     do {
         Noeud* suivant = courant->suivant;
-
         if (triee == NULL) {
             triee = courant;
             triee->suivant = triee;
@@ -68,6 +79,7 @@ Noeud* Trier(Noeud* tete) {
             pos->suivant->precedent = courant;
             pos->suivant = courant;
 
+
             if (courant->donnee < triee->donnee) {
                 triee = courant;
             }
@@ -75,10 +87,7 @@ Noeud* Trier(Noeud* tete) {
 
         courant = suivant;
     } while (courant != tete);
-
     return triee;
-}
-
 
 void Separer(Noeud* tete, Noeud** positifs, Noeud** negatifs) {
     if (tete == NULL) return;
@@ -99,19 +108,18 @@ Noeud* Doublons(Noeud* tete) {
     Noeud* nouvelleTete = NULL;
     Noeud* courant = tete;
     do {
-
-        int dejaExiste = 0;
+        int dejaPresent = 0;
         Noeud* verif = nouvelleTete;
         if (verif != NULL) {
             do {
                 if (verif->donnee == courant->donnee) {
-                    dejaExiste = 1;
+                    dejaPresent = 1;
                     break;
                 }
                 verif = verif->suivant;
             } while (verif != nouvelleTete);
         }
-        if (!dejaExiste) {
+        if (!dejaPresent) {
             ajouterFin(&nouvelleTete, courant->donnee);
         }
         courant = courant->suivant;
@@ -150,18 +158,19 @@ int main() {
     Noeud* liste = NULL;
 
     int n;
-    printf("Entrez le nombre d'elements dans la liste : ");
+    printf("Entrez le nombre d'éléments dans la liste : ");
     scanf("%d", &n);
 
     for (int i = 0; i < n; i++) {
         int valeur;
-        printf("Entrez l'element %d : ", i + 1);
+        printf("Entrez l'élément %d : ", i + 1);
         scanf("%d", &valeur);
         ajouterFin(&liste, valeur);
     }
 
     printf("Liste originale :\n");
     afficherListe(liste);
+
     Noeud* triee = Trier(liste);
     printf("Liste triée :\n");
     afficherListe(triee);
@@ -181,6 +190,12 @@ int main() {
     Noeud* inversee = Inverser(liste);
     printf("Liste inversée :\n");
     afficherListe(inversee);
+    libererListe(&liste);
+    libererListe(&triee);
+    libererListe(&positifs);
+    libererListe(&negatifs);
+    libererListe(&sansDoublons);
+    libererListe(&inversee);
 
     return 0;
 }
